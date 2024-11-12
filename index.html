@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Price Comparison</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Product Price Comparison</h1>
+    <form id="searchForm">
+        <input type="text" id="productName" placeholder="Enter Product Name">
+        <button type="submit">Search</button>
+    </form>
+    <div id="result"></div>
+    <canvas id="priceChart"></canvas>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const productName = document.getElementById('productName').value;
+
+            const response = await fetch("/api/search", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ product_name: productName })
+            });
+            const data = await response.json();
+
+            if (data.error) {
+                document.getElementById('result').innerHTML = `<h2>Error: ${data.error}</h2>`;
+            } else {
+                document.getElementById('result').innerHTML = `
+                    <h2>Best Price: ₹${data.best_price} on ${data.best_platform}</h2>
+                `;
+
+                const labels = data.all_prices.map(d => d.platform);
+                const prices = data.all_prices.map(d => d.price);
+
+                new Chart(document.getElementById('priceChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Price Comparison',
+                            data: prices,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { responsive: true }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
