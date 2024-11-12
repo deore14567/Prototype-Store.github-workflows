@@ -14,3 +14,4 @@ This app provides a price comparison and history graph for products across platf
 ```bash
 git clone https://github.com/your-username/repo-name.git
 cd repo-name
+pip install -r requirements.txt
