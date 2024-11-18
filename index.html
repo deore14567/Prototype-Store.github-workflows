@@ -2,57 +2,181 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Product Price Comparison</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm to Market</title>
+    <style>
+        /* Basic styling for layout */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header, section, footer {
+            width: 90%;
+            max-width: 1000px;
+            padding: 20px;
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        h1, h2 {
+            color: #4CAF50;
+            margin: 0 0 10px;
+        }
+
+        p, ul, table {
+            margin: 10px 0;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin: 5px 0;
+        }
+
+        .map-container, .tracking-container {
+            height: 400px;
+            width: 100%;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px dashed #ccc;
+            border-radius: 5px;
+            color: #777;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        table th {
+            background-color: #f7f7f7;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-    <h1>Product Price Comparison</h1>
-    <form id="searchForm">
-        <input type="text" id="productName" placeholder="Enter Product Name">
-        <button type="submit">Search</button>
-    </form>
-    <div id="result"></div>
-    <canvas id="priceChart"></canvas>
 
-    <script>
-        document.getElementById('searchForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const productName = document.getElementById('productName').value;
+<header>
+    <h1>Farm to Market</h1>
+    <p>Connecting farmers to markets with quality assurance and real-time tracking.</p>
+</header>
 
-            const response = await fetch("/api/search", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ product_name: productName })
-            });
-            const data = await response.json();
+<section id="location-mapping">
+    <h2>Location Mapping</h2>
+    <p>Find the exact location of your farm or destination using our mapping feature:</p>
+    <div class="map-container">
+        <!-- Placeholder for map integration (e.g., Google Maps) -->
+        <p>Map will display here.</p>
+    </div>
+</section>
 
-            if (data.error) {
-                document.getElementById('result').innerHTML = `<h2>Error: ${data.error}</h2>`;
-            } else {
-                document.getElementById('result').innerHTML = `
-                    <h2>Best Price: ₹${data.best_price} on ${data.best_platform}</h2>
-                `;
+<section id="market-info">
+    <h2>Market Information</h2>
+    <p>Get up-to-date information on market trends, pricing, and demand for various products:</p>
+    <ul>
+        <li>Product A - Demand: High</li>
+        <li>Product B - Demand: Moderate</li>
+        <li>Product C - Demand: Low</li>
+    </ul>
+</section>
 
-                const labels = data.all_prices.map(d => d.platform);
-                const prices = data.all_prices.map(d => d.price);
+<section id="order-tracking">
+    <h2>Order Tracking</h2>
+    <p>Track the status of your orders in real time:</p>
+    <div class="tracking-container">
+        <!-- Placeholder for order tracking information -->
+        <p>Order tracking info will display here.</p>
+    </div>
+</section>
 
-                new Chart(document.getElementById('priceChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Price Comparison',
-                            data: prices,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: { responsive: true }
-                });
-            }
-        });
-    </script>
+<section id="market-prices">
+    <h2>Market Prices</h2>
+    <p>Stay updated on the latest market prices for your products:</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Current Price (USD)</th>
+                <th>Last Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Product A</td>
+                <td>$10</td>
+                <td>Today</td>
+            </tr>
+            <tr>
+                <td>Product B</td>
+                <td>$15</td>
+                <td>Today</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section id="quality-check">
+    <h2>Quality Check</h2>
+    <p>Our quality check system ensures that your products meet industry standards:</p>
+    <ul>
+        <li>Product A - Status: Passed</li>
+        <li>Product B - Status: Pending</li>
+        <li>Product C - Status: Under Review</li>
+    </ul>
+</section>
+
+<footer>
+    <p>&copy; 2024 Farm to Market | Contact us at <a href="mailto:info@farmtomarket.com">info@farmtomarket.com</a></p>
+</footer>
+
+<!-- JavaScript placeholders for additional functionality -->
+<script>
+    // Placeholder for location mapping functionality
+    function initializeMap() {
+        // Integration with Google Maps API or similar
+    }
+
+    // Placeholder for real-time order tracking
+    function trackOrder(orderId) {
+        // Fetch order status from the server
+    }
+
+    // Placeholder for fetching and updating market prices
+    function updateMarketPrices() {
+        // Fetch market prices from an API
+    }
+
+    // Placeholder for quality check status updates
+    function checkQualityStatus() {
+        // Retrieve quality check status
+    }
+</script>
+
 </body>
 </html>
